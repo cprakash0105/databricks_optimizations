@@ -17,10 +17,12 @@ resource "databricks_schema" "optimizations" {
 # --- Groups ---
 resource "databricks_group" "data_engineers" {
   display_name = "${var.project_name}-data-engineers"
+  force        = true
 }
 
 resource "databricks_group" "data_analysts" {
   display_name = "${var.project_name}-data-analysts"
+  force        = true
 }
 
 # --- Users ---

@@ -3,11 +3,6 @@ output "cluster_id" {
   value       = databricks_cluster.optimizations.id
 }
 
-output "dev_cluster_id" {
-  description = "Dev single-node cluster ID"
-  value       = databricks_cluster.dev.id
-}
-
 output "catalog_name" {
   description = "Unity Catalog name"
   value       = databricks_catalog.ecommerce.name
