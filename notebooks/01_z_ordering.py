@@ -10,7 +10,7 @@
 
 # COMMAND ----------
 
-CATALOG = "ecommerce_demo"
+CATALOG = "hive_metastore"
 SCHEMA = "optimizations"
 TABLE = f"{CATALOG}.{SCHEMA}.orders"
 

@@ -12,7 +12,7 @@
 
 # COMMAND ----------
 
-CATALOG = "ecommerce_demo"
+CATALOG = "hive_metastore"
 SCHEMA = "optimizations"
 
 # COMMAND ----------

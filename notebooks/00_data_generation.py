@@ -15,10 +15,9 @@ import random
 
 # COMMAND ----------
 
-CATALOG = "ecommerce_demo"
+CATALOG = "hive_metastore"
 SCHEMA = "optimizations"
 
-spark.sql(f"CREATE CATALOG IF NOT EXISTS {CATALOG}")
 spark.sql(f"CREATE SCHEMA IF NOT EXISTS {CATALOG}.{SCHEMA}")
 
 # COMMAND ----------
