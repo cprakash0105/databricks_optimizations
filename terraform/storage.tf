@@ -39,7 +39,7 @@ resource "azurerm_storage_account" "catalog" {
 
 resource "azurerm_storage_container" "catalog" {
   name                  = "unity-catalog"
-  storage_account_id    = azurerm_storage_account.catalog.id
+  storage_account_name  = azurerm_storage_account.catalog.name
   container_access_type = "private"
 }
 
