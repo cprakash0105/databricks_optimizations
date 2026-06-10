@@ -11,7 +11,7 @@
 
 # COMMAND ----------
 
-CATALOG = "hive_metastore"
+CATALOG = "ecommerce_lakehouse_az"
 SCHEMA = "optimizations"
 ORDERS = f"{CATALOG}.{SCHEMA}.orders"
 ORDER_ITEMS = f"{CATALOG}.{SCHEMA}.order_items"
