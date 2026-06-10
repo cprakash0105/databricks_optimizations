@@ -3,6 +3,12 @@ variable "azure_subscription_id" {
   type        = string
 }
 
+variable "azure_location" {
+  description = "Azure region for resources"
+  type        = string
+  default     = "westus2"
+}
+
 variable "databricks_host" {
   description = "Databricks workspace URL (e.g., https://adb-xxxxx.azuredatabricks.net)"
   type        = string

@@ -3,6 +3,7 @@ resource "databricks_cluster" "optimizations" {
   cluster_name            = "${var.project_name}-${var.environment}"
   spark_version           = "14.3.x-scala2.12"
   node_type_id            = "Standard_DS3_v2"
+  data_security_mode      = "USER_ISOLATION"
   autotermination_minutes = var.cluster_autotermination_minutes
   num_workers             = var.cluster_num_workers
 
@@ -33,6 +34,8 @@ resource "databricks_cluster" "dev" {
   cluster_name            = "${var.project_name}-dev-single-node"
   spark_version           = "14.3.x-scala2.12"
   node_type_id            = "Standard_DS3_v2"
+  data_security_mode      = "SINGLE_USER"
+  single_user_name        = var.data_engineers[0]
   autotermination_minutes = 15
   num_workers             = 0
 

@@ -1,7 +1,11 @@
 # Unity Catalog - Create catalog and schema
+# Unity Catalog with explicit managed location
 resource "databricks_catalog" "ecommerce" {
   name    = "ecommerce_demo"
   comment = "E-commerce demo catalog for optimization benchmarks"
+  storage_root = "abfss://${azurerm_storage_container.catalog.name}@${azurerm_storage_account.catalog.name}.dfs.core.windows.net/ecommerce_demo"
+
+  depends_on = [databricks_external_location.catalog]
 }
 
 resource "databricks_schema" "optimizations" {

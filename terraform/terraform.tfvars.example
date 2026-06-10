@@ -2,6 +2,7 @@
 # DO NOT commit terraform.tfvars to git
 
 azure_subscription_id = "48461da1-82dd-4383-8a80-1017d832a267"
+azure_location        = "westus2"
 databricks_host       = "https://adb-7405609110319189.9.azuredatabricks.net"
 databricks_token      = "<your-databricks-pat>"
 
