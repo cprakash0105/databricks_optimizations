@@ -3,7 +3,7 @@
 # MAGIC # 💧 Optimization 2: Liquid Clustering
 # MAGIC
 # MAGIC **Problem:** The analytics team's query patterns evolve. Initially they filtered by `order_date`,
-# MAGIC but now the regional team filters by `region`. Z-Ordering requires a full rewrite to change
+# MAGIC but now the finance team filters by `payment_method` and `status`. Z-Ordering requires a full rewrite to change
 # MAGIC clustering columns — expensive and slow.
 # MAGIC
 # MAGIC **Solution:** Liquid Clustering dynamically and incrementally clusters data. You can change
@@ -57,16 +57,16 @@ df.show()
 
 # COMMAND ----------
 
-# Business requirement changed — regional team now needs fast queries by region
+# Business requirement changed — finance team now needs fast queries by payment_method + status
 # With Z-Ordering, this would require a full OPTIMIZE rewrite
 # With Liquid Clustering, just ALTER the table:
 
 spark.sql(f"""
 ALTER TABLE {TABLE}
-CLUSTER BY (region, order_date)
+CLUSTER BY (payment_method, status)
 """)
 
-print("✅ Clustering keys changed to (region, order_date) — no full rewrite needed!")
+print("✅ Clustering keys changed to (payment_method, status) — no full rewrite needed!")
 
 # COMMAND ----------
 
@@ -81,18 +81,17 @@ print("✅ Incremental OPTIMIZE applied — only unclustered data is reorganized
 
 # COMMAND ----------
 
-# Now regional queries are fast
-query_by_region = f"""
-SELECT o.region, o.order_date, COUNT(*) as orders, SUM(o.total_amount) as revenue
-FROM {TABLE} o
-JOIN {CATALOG}.{SCHEMA}.customers c ON o.customer_id = c.customer_id
-WHERE c.region = 'Europe'
-  AND o.order_date >= '2023-01-01'
-GROUP BY o.region, o.order_date
-ORDER BY o.order_date
+# Now payment_method + status queries are fast
+query_by_payment = f"""
+SELECT payment_method, status, COUNT(*) as orders, SUM(total_amount) as revenue
+FROM {TABLE}
+WHERE payment_method = 'credit_card'
+  AND status = 'completed'
+  AND order_date >= '2023-01-01'
+GROUP BY payment_method, status
 """
 
-df = spark.sql(query_by_region)
+df = spark.sql(query_by_payment)
 df.show(10)
 
 # COMMAND ----------
