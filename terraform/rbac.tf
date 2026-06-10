@@ -55,38 +55,50 @@ resource "databricks_group_member" "analysts" {
   member_id = databricks_user.analysts[each.key].id
 }
 
-# Catalog-level grants
+# Catalog-level grants (using user principals for trial account compatibility)
 resource "databricks_grants" "catalog" {
   catalog = databricks_catalog.ecommerce.name
 
-  grant {
-    principal  = databricks_group.data_engineers.display_name
-    privileges = ["USE_CATALOG", "USE_SCHEMA", "CREATE_SCHEMA", "CREATE_TABLE"]
+  dynamic "grant" {
+    for_each = toset(var.data_engineers)
+    content {
+      principal  = grant.value
+      privileges = ["USE_CATALOG", "USE_SCHEMA", "CREATE_SCHEMA", "CREATE_TABLE"]
+    }
   }
 
-  grant {
-    principal  = databricks_group.data_analysts.display_name
-    privileges = ["USE_CATALOG", "USE_SCHEMA"]
+  dynamic "grant" {
+    for_each = toset(var.data_analysts)
+    content {
+      principal  = grant.value
+      privileges = ["USE_CATALOG", "USE_SCHEMA"]
+    }
   }
 
-  depends_on = [databricks_group.data_engineers, databricks_group.data_analysts, databricks_group_member.engineers, databricks_group_member.analysts]
+  depends_on = [databricks_user.engineers, databricks_user.analysts]
 }
 
 # Schema-level grants
 resource "databricks_grants" "schema" {
   schema = "${databricks_catalog.ecommerce.name}.${databricks_schema.optimizations.name}"
 
-  grant {
-    principal  = databricks_group.data_engineers.display_name
-    privileges = ["ALL_PRIVILEGES"]
+  dynamic "grant" {
+    for_each = toset(var.data_engineers)
+    content {
+      principal  = grant.value
+      privileges = ["ALL_PRIVILEGES"]
+    }
   }
 
-  grant {
-    principal  = databricks_group.data_analysts.display_name
-    privileges = ["SELECT"]
+  dynamic "grant" {
+    for_each = toset(var.data_analysts)
+    content {
+      principal  = grant.value
+      privileges = ["SELECT"]
+    }
   }
 
-  depends_on = [databricks_group.data_engineers, databricks_group.data_analysts, databricks_group_member.engineers, databricks_group_member.analysts]
+  depends_on = [databricks_user.engineers, databricks_user.analysts]
 }
 
 # --- Cluster Policy Permissions ---
