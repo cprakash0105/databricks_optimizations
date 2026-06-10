@@ -47,7 +47,7 @@ resource "databricks_group_member" "analysts" {
   member_id = databricks_user.analysts[each.key].id
 }
 
-# --- Catalog-level Grants ---
+# Catalog-level grants
 resource "databricks_grants" "catalog" {
   catalog = databricks_catalog.ecommerce.name
 
@@ -60,9 +60,11 @@ resource "databricks_grants" "catalog" {
     principal  = databricks_group.data_analysts.display_name
     privileges = ["USE_CATALOG", "USE_SCHEMA"]
   }
+
+  depends_on = [databricks_group.data_engineers, databricks_group.data_analysts, databricks_group_member.engineers, databricks_group_member.analysts]
 }
 
-# --- Schema-level Grants ---
+# Schema-level grants
 resource "databricks_grants" "schema" {
   schema = "${databricks_catalog.ecommerce.name}.${databricks_schema.optimizations.name}"
 
@@ -75,6 +77,8 @@ resource "databricks_grants" "schema" {
     principal  = databricks_group.data_analysts.display_name
     privileges = ["SELECT"]
   }
+
+  depends_on = [databricks_group.data_engineers, databricks_group.data_analysts, databricks_group_member.engineers, databricks_group_member.analysts]
 }
 
 # --- Cluster Policy Permissions ---
