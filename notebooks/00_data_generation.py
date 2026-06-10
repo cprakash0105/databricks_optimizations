@@ -27,7 +27,7 @@ spark.sql(f"CREATE SCHEMA IF NOT EXISTS {CATALOG}.{SCHEMA}")
 
 # COMMAND ----------
 
-NUM_CUSTOMERS = 100_000
+NUM_CUSTOMERS = 500_000
 
 regions = ["North America", "Europe", "Asia Pacific", "Latin America", "Middle East"]
 tiers = ["bronze", "silver", "gold", "platinum"]
@@ -51,7 +51,7 @@ print(f"✅ Customers table created: {NUM_CUSTOMERS:,} rows")
 
 # COMMAND ----------
 
-NUM_ORDERS = 1_000_000
+NUM_ORDERS = 10_000_000
 
 statuses = ["completed", "shipped", "processing", "cancelled", "returned"]
 
@@ -79,7 +79,7 @@ print(f"✅ Orders table created: {NUM_ORDERS:,} rows")
 
 # COMMAND ----------
 
-NUM_ITEMS = 5_000_000
+NUM_ITEMS = 50_000_000
 
 categories = ["Electronics", "Clothing", "Home & Garden", "Sports", "Books", "Beauty", "Toys", "Food & Beverage"]
 
