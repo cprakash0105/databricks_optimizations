@@ -4,7 +4,7 @@ resource "databricks_cluster" "optimizations" {
   spark_version           = "14.3.x-scala2.12"
   node_type_id            = "Standard_D4ps_v6"
   data_security_mode      = "SINGLE_USER"
-  single_user_name        = var.data_engineers[0]
+  single_user_name        = var.cluster_single_user
   autotermination_minutes = var.cluster_autotermination_minutes
   num_workers             = 0
 

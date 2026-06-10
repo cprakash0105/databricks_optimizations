@@ -44,6 +44,12 @@ variable "cluster_num_workers" {
   default     = 2
 }
 
+variable "cluster_single_user" {
+  description = "User email for single-user cluster access (must match login identity)"
+  type        = string
+  default     = "sun.moon.star.123@outlook.com"
+}
+
 variable "data_engineers" {
   description = "List of data engineer user emails"
   type        = list(string)
