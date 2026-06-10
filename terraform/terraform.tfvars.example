@@ -1,9 +1,9 @@
 # Copy this file to terraform.tfvars and fill in your values
 # DO NOT commit terraform.tfvars to git
 
-aws_region       = "us-east-1"
-databricks_host  = "https://your-workspace.cloud.databricks.com"
-databricks_token = "<your-databricks-pat>"
+azure_subscription_id = "<your-azure-subscription-id>"
+databricks_host       = "https://adb-xxxxxxxxxxxxxx.xx.azuredatabricks.net"
+databricks_token      = "<your-databricks-pat>"
 
 environment  = "dev"
 project_name = "ecommerce-optimizations"

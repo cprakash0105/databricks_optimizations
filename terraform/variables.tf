@@ -1,11 +1,10 @@
-variable "aws_region" {
-  description = "AWS region for resources"
+variable "azure_subscription_id" {
+  description = "Azure subscription ID"
   type        = string
-  default     = "us-east-1"
 }
 
 variable "databricks_host" {
-  description = "Databricks workspace URL"
+  description = "Databricks workspace URL (e.g., https://adb-xxxxx.azuredatabricks.net)"
   type        = string
 }
 

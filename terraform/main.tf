@@ -6,21 +6,23 @@ terraform {
       source  = "databricks/databricks"
       version = "~> 1.40"
     }
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.90"
     }
   }
 
-  backend "s3" {
-    bucket = "your-terraform-state-bucket"
-    key    = "databricks-optimizations/terraform.tfstate"
-    region = "us-east-1"
+  backend "azurerm" {
+    resource_group_name  = "your-tfstate-rg"
+    storage_account_name = "yourtfstatestorage"
+    container_name       = "tfstate"
+    key                  = "databricks-optimizations/terraform.tfstate"
   }
 }
 
-provider "aws" {
-  region = var.aws_region
+provider "azurerm" {
+  features {}
+  subscription_id = var.azure_subscription_id
 }
 
 provider "databricks" {

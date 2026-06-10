@@ -10,8 +10,8 @@ resource "databricks_cluster_policy" "data_engineering" {
     },
     "node_type_id" : {
       "type" : "allowlist",
-      "values" : ["i3.xlarge", "i3.2xlarge", "i3.4xlarge"],
-      "defaultValue" : "i3.xlarge"
+      "values" : ["Standard_DS3_v2", "Standard_DS4_v2", "Standard_DS5_v2"],
+      "defaultValue" : "Standard_DS3_v2"
     },
     "num_workers" : {
       "type" : "range",
@@ -47,7 +47,7 @@ resource "databricks_cluster_policy" "data_analyst" {
     },
     "node_type_id" : {
       "type" : "fixed",
-      "value" : "i3.xlarge"
+      "value" : "Standard_DS3_v2"
     },
     "num_workers" : {
       "type" : "range",
