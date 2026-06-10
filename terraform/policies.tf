@@ -10,7 +10,7 @@ resource "databricks_cluster_policy" "data_engineering" {
     },
     "node_type_id" : {
       "type" : "allowlist",
-      "values" : ["Standard_D4ps_v6", "Standard_D8s_v3", "Standard_D16s_v3"],
+      "values" : ["Standard_D4ps_v6", "Standard_D8ps_v6", "Standard_D16ps_v6"],
       "defaultValue" : "Standard_D4ps_v6"
     },
     "num_workers" : {
