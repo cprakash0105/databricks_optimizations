@@ -10,7 +10,7 @@ resource "databricks_schema" "optimizations" {
   comment      = "Schema for Databricks optimization demo tables"
 }
 
-# Groups
+# --- Groups ---
 resource "databricks_group" "data_engineers" {
   display_name = "${var.project_name}-data-engineers"
 }
@@ -19,7 +19,18 @@ resource "databricks_group" "data_analysts" {
   display_name = "${var.project_name}-data-analysts"
 }
 
-# Group memberships
+# --- Users ---
+resource "databricks_user" "engineers" {
+  for_each  = toset(var.data_engineers)
+  user_name = each.value
+}
+
+resource "databricks_user" "analysts" {
+  for_each  = toset(var.data_analysts)
+  user_name = each.value
+}
+
+# --- Group Memberships ---
 resource "databricks_group_member" "engineers" {
   for_each  = toset(var.data_engineers)
   group_id  = databricks_group.data_engineers.id
@@ -32,18 +43,7 @@ resource "databricks_group_member" "analysts" {
   member_id = databricks_user.analysts[each.key].id
 }
 
-# Users
-resource "databricks_user" "engineers" {
-  for_each  = toset(var.data_engineers)
-  user_name = each.value
-}
-
-resource "databricks_user" "analysts" {
-  for_each  = toset(var.data_analysts)
-  user_name = each.value
-}
-
-# Catalog-level grants
+# --- Catalog-level Grants ---
 resource "databricks_grants" "catalog" {
   catalog = databricks_catalog.ecommerce.name
 
@@ -58,7 +58,7 @@ resource "databricks_grants" "catalog" {
   }
 }
 
-# Schema-level grants
+# --- Schema-level Grants ---
 resource "databricks_grants" "schema" {
   schema = "${databricks_catalog.ecommerce.name}.${databricks_schema.optimizations.name}"
 
@@ -73,7 +73,7 @@ resource "databricks_grants" "schema" {
   }
 }
 
-# Cluster policy permissions
+# --- Cluster Policy Permissions ---
 resource "databricks_permissions" "engineering_policy" {
   cluster_policy_id = databricks_cluster_policy.data_engineering.id
 
@@ -92,7 +92,7 @@ resource "databricks_permissions" "analyst_policy" {
   }
 }
 
-# Cluster permissions
+# --- Cluster Permissions ---
 resource "databricks_permissions" "cluster_optimizations" {
   cluster_id = databricks_cluster.optimizations.id
 

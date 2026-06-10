@@ -1,8 +1,8 @@
 # Copy this file to terraform.tfvars and fill in your values
 # DO NOT commit terraform.tfvars to git
 
-azure_subscription_id = "<your-azure-subscription-id>"
-databricks_host       = "https://adb-xxxxxxxxxxxxxx.xx.azuredatabricks.net"
+azure_subscription_id = "48461da1-82dd-4383-8a80-1017d832a267"
+databricks_host       = "https://adb-7405609110319189.9.azuredatabricks.net"
 databricks_token      = "<your-databricks-pat>"
 
 environment  = "dev"
@@ -11,12 +11,12 @@ project_name = "ecommerce-optimizations"
 cluster_autotermination_minutes = 30
 cluster_num_workers             = 2
 
+# Simulated production users (use your own email + dummy emails)
 data_engineers = [
-  "engineer1@company.com",
-  "engineer2@company.com"
+  "live.com#sun.moon.star.123@outlook.com",
+  "engineer.demo@outlook.com"
 ]
 
 data_analysts = [
-  "analyst1@company.com",
-  "analyst2@company.com"
+  "analyst.demo@outlook.com"
 ]
