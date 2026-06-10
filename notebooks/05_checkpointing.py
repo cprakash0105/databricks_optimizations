@@ -63,18 +63,17 @@ history.select("version", "operation", "timestamp").show(20, truncate=False)
 # COMMAND ----------
 
 # Delta creates checkpoints every 10 commits by default
-# Let's look at the log directory structure
-log_path = spark.sql(f"DESCRIBE DETAIL {TABLE}").select("location").first()[0] + "/_delta_log/"
+# Use DESCRIBE HISTORY to see the transaction log versions
+history_df = spark.sql(f"DESCRIBE HISTORY {TABLE}")
+total_versions = history_df.count()
 
-log_files = dbutils.fs.ls(log_path)
-json_files = [f for f in log_files if f.name.endswith(".json")]
-checkpoint_files = [f for f in log_files if "checkpoint" in f.name]
+# Checkpoints are created every 10 versions by default
+checkpoint_versions = [v for v in range(0, total_versions, 10) if v > 0]
 
-print(f"JSON log files: {len(json_files)}")
-print(f"Checkpoint files: {len(checkpoint_files)}")
-print(f"\nLatest checkpoints:")
-for f in sorted(checkpoint_files, key=lambda x: x.name)[-5:]:
-    print(f"  {f.name} ({f.size / 1024:.1f} KB)")
+print(f"Total transaction log versions: {total_versions}")
+print(f"Estimated checkpoint versions: {checkpoint_versions}")
+print(f"\nWithout checkpoints: engine replays {total_versions} JSON files")
+print(f"With checkpoints: engine reads 1 checkpoint + {total_versions % 10} JSON files")
 
 # COMMAND ----------
 
