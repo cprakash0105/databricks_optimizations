@@ -14,15 +14,21 @@ resource "databricks_schema" "optimizations" {
   comment      = "Schema for Databricks optimization demo tables"
 }
 
-# --- Groups ---
+# --- Groups (account-level for Unity Catalog grants) ---
 resource "databricks_group" "data_engineers" {
-  display_name = "${var.project_name}-data-engineers"
-  force        = true
+  display_name               = "${var.project_name}-data-engineers"
+  workspace_access           = true
+  databricks_sql_access      = true
+  allow_cluster_create       = true
+  force                      = true
 }
 
 resource "databricks_group" "data_analysts" {
-  display_name = "${var.project_name}-data-analysts"
-  force        = true
+  display_name               = "${var.project_name}-data-analysts"
+  workspace_access           = true
+  databricks_sql_access      = true
+  allow_cluster_create       = false
+  force                      = true
 }
 
 # --- Users ---
